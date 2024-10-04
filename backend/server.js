@@ -2,9 +2,9 @@ const express = require('express');
 const passport = require('passport');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const connectDB = require('./config/database');
 const setupPassport = require('./config/passport');
 const authRoutes = require('./routes/authRoutes');
+const mongoose = require('mongoose');
 
 dotenv.config();
 
@@ -17,7 +17,9 @@ app.use(express.json());
 app.use(passport.initialize());
 
 // Connect to MongoDB
-connectDB();
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("DB Connected"))
+  .catch((err) => console.log("DB Connection Error: ", err));
 
 // Setup Passport
 setupPassport();
