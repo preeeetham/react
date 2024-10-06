@@ -12,7 +12,11 @@ const app = express()
 const port = process.env.PORT || 8000
 
 app.use(express.json())
-app.use(cors());
+const cors = require('cors');
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://gravitty-todo.vercel.app']
+}));
+
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("DB Connected"))
