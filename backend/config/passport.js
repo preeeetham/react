@@ -13,11 +13,15 @@ const setupPassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           let user = await User.findOne({ googleId: profile.id });
+          console.log(accessToken);
+          console.log(refreshToken);
+          console.log(profile);
           if (!user) {
             user = await User.create({
               googleId: profile.id,
               name: profile.displayName,
               email: profile.emails?.[0].value,
+              username: profile.emails?.[0].value.split('@')[0] // Use email prefix as username
             });
           }
           return done(null, user);
