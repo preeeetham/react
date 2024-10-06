@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import userRouter from "../backend/routes/user.js";
-import taskRouter from "../backend/routes/todo.js"
-import forgotPasswordRouter from "../backend/routes/forgotpass.js"
+import userRouter from "./routes/user.js";
+import taskRouter from "./routes/todo.js"
+import forgotPasswordRouter from "./routes/forgotpass.js"
 
 dotenv.config()
 const app = express()
