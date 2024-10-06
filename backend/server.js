@@ -1,32 +1,25 @@
-const express = require('express');
-const passport = require('passport');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const setupPassport = require('./config/passport');
-const authRoutes = require('./routes/authRoutes');
-const mongoose = require('mongoose');
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
 
-dotenv.config();
+import userRouter from "../backend/routes/user.js";
+import taskRouter from "../backend/routes/todo.js"
+import forgotPasswordRouter from "../backend/routes/forgotpass.js"
 
-const app = express();
-const PORT = process.env.PORT || 8000;
+dotenv.config()
+const app = express()
+const port = process.env.PORT || 8000
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(passport.initialize());
+app.use(express.json())
+app.use(cors())
 
-// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("DB Connected"))
   .catch((err) => console.log("DB Connection Error: ", err));
 
-// Setup Passport
-setupPassport();
+app.use("/api/user", userRouter)
+app.use("/api/task", taskRouter)
+app.use("/api/forgotPassword", forgotPasswordRouter)
 
-// Routes
-app.use('/auth', authRoutes);
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(port, () => console.log(`Listening on localhost:${port}`))
