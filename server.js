@@ -13,7 +13,7 @@ const port = process.env.PORT || 8000
 
 app.use(express.json())
 app.use(cors({
-  origin: 'https://gravitty-todo.vercel.app/', // Allow your frontend domain
+  origin: 'https://gravitty-todo.vercel.app',
   methods: 'GET,POST,PUT,DELETE',
 }));
 
