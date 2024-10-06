@@ -12,7 +12,6 @@ const app = express()
 const port = process.env.PORT || 8000
 
 app.use(express.json())
-const cors = require('cors');
 app.use(cors({
     origin: ['http://localhost:3000', 'https://gravitty-todo.vercel.app']
 }));
