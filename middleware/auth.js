@@ -11,6 +11,7 @@ const requireAuth = async (req, res, next) => {
         req.token = token;
         next();
     } catch (error) {
+        console.error(error);
         return res.status(500).json({message:error.message});
     }
 }
