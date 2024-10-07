@@ -46,11 +46,11 @@ const addTask = async (req, res) => {
 }
 const removeTask = async (req, res) => {
     try {
-        const { taskId } = req.query;  // Use req.query for query parameters
-        if (!taskId) {
+        const { id } = req.params;  // Use req.params for path parameters
+        if (!id) {
             return res.status(400).json({ message: "Task ID is required" });
         }
-        const deletedTask = await taskModel.findByIdAndDelete(taskId);  // Use taskId
+        const deletedTask = await taskModel.findByIdAndDelete(id);  // Use the ID from the path
         if (!deletedTask) {
             return res.status(404).json({ message: "Task not found" });
         }
@@ -61,4 +61,9 @@ const removeTask = async (req, res) => {
     }
 };
 
+const getTask = (req, res) => {
+    taskModel.find({ userId: req.user.id })
+        .then((data) => res.status(200).json(data))
+        .catch((error) => res.status(501).json({ message: error.message }))
+}
 export { addTask, getTask,removeTask }
