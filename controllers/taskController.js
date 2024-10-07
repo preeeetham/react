@@ -47,17 +47,10 @@ const addTask = async (req, res) => {
 const removeTask = async (req, res) => {
     try {
         const { id } = req.params;
-        
-        if (!id) {
-            return res.status(400).json({ message: "Task ID is required" });
-        }
-
         const deletedTask = await taskModel.findByIdAndDelete(id);
-        
         if (!deletedTask) {
             return res.status(404).json({ message: "Task not found" });
         }
-
         res.status(200).json({ message: "Task deleted successfully", deletedTask });
     } catch (error) {
         console.error("Error in removeTask:", error);
