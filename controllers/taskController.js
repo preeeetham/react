@@ -46,6 +46,8 @@ const addTask = async (req, res) => {
         )
 }
 
+import mongoose from 'mongoose';
+
 const removeTask = async (req, res) => {
     try {
         const { id } = req.params;  // Extract the task ID from the route parameter
@@ -59,8 +61,8 @@ const removeTask = async (req, res) => {
             return res.status(400).json({ message: "Invalid task ID format" });
         }
 
-        // Find and delete the task using Mongoose's ObjectId conversion
-        const deletedTask = await taskModel.findByIdAndDelete(mongoose.Types.ObjectId(id));
+        // No need to manually convert `id` to ObjectId, Mongoose will handle it
+        const deletedTask = await taskModel.findByIdAndDelete(id);
 
         if (!deletedTask) {
             return res.status(404).json({ message: "Task not found" });
@@ -72,7 +74,7 @@ const removeTask = async (req, res) => {
         res.status(500).json({ message: "Internal server error", error: error.message });
     }
 };
-;
+
 
 const getTask = (req, res) => {
     taskModel.find({ userId: req.user.id })
