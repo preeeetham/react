@@ -13,7 +13,7 @@ const sendMail = (email, subject, title, description) => {
     });
 
     var mailOptions = {
-        from: 'alok.yadav6000@gmail.com',
+        from: 'spreethamkumar5@gmail.com',
         to: email,
         subject: subject,
         html:`<h1>Task added successfully</h1><h2>Title: ${title}</h2><h3>Description: ${description}</h3>`
@@ -44,13 +44,26 @@ const addTask = async (req, res) => {
         }
         )
 }
-const removeTask = (req, res) => {
-    const { id } = req.body;
-    console.log("id: ", id);
-    taskModel.findByIdAndDelete(id)
-        .then(() => res.status(200).json({ message: "Task deleted successfully" }))
-        .catch((error) => res.status(501).json({ message: error.message }))
-}
+const removeTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        if (!id) {
+            return res.status(400).json({ message: "Task ID is required" });
+        }
+
+        const deletedTask = await taskModel.findByIdAndDelete(id);
+        
+        if (!deletedTask) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+
+        res.status(200).json({ message: "Task deleted successfully", deletedTask });
+    } catch (error) {
+        console.error("Error in removeTask:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+};
 
 const getTask = (req, res) => {
     taskModel.find({ userId: req.user.id })

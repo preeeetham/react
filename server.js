@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-
+// import path from "path";
 import userRouter from "./routes/user.js";
 import taskRouter from "./routes/todo.js"
 import forgotPasswordRouter from "./routes/forgotpass.js"
