@@ -44,22 +44,34 @@ const addTask = async (req, res) => {
         }
         )
 }
+
 const removeTask = async (req, res) => {
     try {
-        const { id } = req.params;  // Use req.params for path parameters
+        const { id } = req.params;  // Extract the task ID from the route parameter
+
         if (!id) {
             return res.status(400).json({ message: "Task ID is required" });
         }
-        const deletedTask = await taskModel.findByIdAndDelete(id);  // Use the ID from the path
+
+        // Ensure the task ID is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid task ID format" });
+        }
+
+        // Find and delete the task using Mongoose's ObjectId conversion
+        const deletedTask = await taskModel.findByIdAndDelete(mongoose.Types.ObjectId(id));
+
         if (!deletedTask) {
             return res.status(404).json({ message: "Task not found" });
         }
+
         res.status(200).json({ message: "Task deleted successfully", deletedTask });
     } catch (error) {
         console.error("Error in removeTask:", error);
         res.status(500).json({ message: "Internal server error", error: error.message });
     }
 };
+;
 
 const getTask = (req, res) => {
     taskModel.find({ userId: req.user.id })
