@@ -2,6 +2,7 @@ import taskModel from "../models/taskmodel.js";
 import userModel from "../models/usermodel.js";
 import { createTransport } from 'nodemailer';
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 dotenv.config();
 const sendMail = (email, subject, title, description) => {
     var transporter = createTransport({
