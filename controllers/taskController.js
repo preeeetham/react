@@ -50,7 +50,7 @@ import mongoose from 'mongoose';
 const removeTask = async (req, res) => {
     try {
         const { id } = req.params;  // Extract the task ID from the route parameter
-
+        console.log(id);
         if (!id) {
             return res.status(400).json({ message: "Task ID is required" });
         }
